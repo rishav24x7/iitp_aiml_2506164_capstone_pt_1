@@ -16,7 +16,7 @@ identify which behaviours actually precede churn. The target is `churn_next_60d`
 ## Repository structure
 
 ```
-d2c-churn-part1-eda/
+iitp_aiml_2506164_capstone_pt_1/
 ├── eda_audit.ipynb          # Main notebook (run top-to-bottom, outputs included)
 ├── data_quality_report.md   # Generated: issues + recommended treatments
 ├── business_memo.md         # Generated: what to investigate before any campaign
