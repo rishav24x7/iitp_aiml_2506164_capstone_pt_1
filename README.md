@@ -2,16 +2,16 @@
 
 **D2C Customer Churn Intelligence & Retention** · Capstone Part 1 of 4
 
-This repository audits the raw D2C personal-care datasets, performs exploratory analysis, and derives
-evidence-backed churn-risk hypotheses **before any model is built**. Every analytical claim is supported by
-a chart or a churn-rate table computed from the actual data.
+This is the first step of the project: get to know the raw D2C personal-care data, clean up what's broken, and
+work out which behaviours actually go hand-in-hand with churn — all *before* building any model. I've tried to
+back every claim here with a chart or a churn-rate table straight from the data rather than hand-waving.
 
-## Business context
+## The problem I'm working on
 
-A direct-to-consumer personal-care brand wants to reduce customer churn **without** blanket discounting.
-Before designing retention campaigns, the company needs to understand its data, find quality issues, and
-identify which behaviours actually precede churn. The target is `churn_next_60d` — whether a customer makes
-**no purchase** in the 60 days after the snapshot date `2025-09-30`.
+A direct-to-consumer personal-care brand wants to cut churn **without** just discounting everyone. Before
+anyone designs a campaign, it's worth understanding the data, catching its quality issues, and figuring out
+what tends to come before a customer leaves. The thing we're predicting is `churn_next_60d` — whether a
+customer makes **no purchase** in the 60 days after the snapshot date, `2025-09-30`.
 
 ## Repository structure
 
@@ -48,13 +48,16 @@ regenerates `data_quality_report.md`, `business_memo.md`, and every PNG in `char
    and a correlation scan.
 5. **Churn-risk hypotheses (5+)** — each backed by a churn-rate-by-bucket table and interpretation.
 
-## Key findings
+## What I found
 
-- **Churn is a disengagement problem.** `recency_days` (corr +0.56) and `last_visit_days_ago` (+0.53) are the
-  strongest signals: churn rises from ~12-16% for recently-active customers to ~88-91% for the long-inactive.
-- **Support contact is not a risk signal — negative sentiment is.** Customers with tickets churn *less* (33%
-  vs 51%); within ticket-holders, mostly-negative sentiment churns at 38.5% vs 23.7%.
-- **Frequency & breadth protect.** 0 orders in 180d → 91% churn; 5+ orders → 15%.
-- **6 intentional data-quality defects** confirmed and given concrete treatments; leakage columns flagged.
+- **Churn is mostly about disengagement.** The clearest signals by far are how recently someone ordered
+  (`recency_days`, correlation +0.56) and how recently they visited (`last_visit_days_ago`, +0.53) — churn
+  runs ~12-16% for recently-active customers and climbs to ~88-91% for those who've gone quiet.
+- **A complaint isn't a red flag — a *negative* complaint is.** Customers who raise tickets actually churn
+  less (33% vs 51%); the danger is in mostly-negative tickets (38.5% vs 23.7%).
+- **Buying often, and across categories, keeps people around.** Zero orders in 180 days → 91% churn; five or
+  more → about 15%.
+- **The six built-in data-quality issues** all check out, and I've noted how I'd handle each — plus flagged the
+  columns that would leak the future into a model.
 
-See `business_memo.md` for the prioritized "investigate before you spend" recommendations.
+The prioritized "look here before you spend" version of all this is in `business_memo.md`.
